@@ -44,34 +44,34 @@ wss.on('connection', (ws) => {
 
 
 
-// 創建WebSocket客戶端連接到3CX
-const ws3cx = new WebSocket('wss://bonuc.3cx.com.tw/callcontrol/ws', {
-  headers: {
-    'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`, // 替換為您的Token
-  }
-});
+// // 創建WebSocket客戶端連接到3CX
+// const ws3cx = new WebSocket('wss://bonuc.3cx.com.tw/callcontrol/ws', {
+//   headers: {
+//     'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`, // 替換為您的Token
+//   }
+// });
 
-ws3cx.on('open', () => {
-  console.log('Connected to 3CX WebSocket');
-});
+// ws3cx.on('open', () => {
+//   console.log('Connected to 3CX WebSocket');
+// });
 
-ws3cx.on('message', (data) => {
-  console.log('Message from 3CX:', data);
-  // 將訊息轉發給前端客戶端
-  wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(data);
-    }
-  });
-});
+// ws3cx.on('message', (data) => {
+//   console.log('Message from 3CX:', data);
+//   // 將訊息轉發給前端客戶端
+//   wss.clients.forEach((client) => {
+//     if (client.readyState === WebSocket.OPEN) {
+//       client.send(data);
+//     }
+//   });
+// });
 
-ws3cx.on('close', () => {
-  console.log('Disconnected from 3CX WebSocket');
-});
+// ws3cx.on('close', () => {
+//   console.log('Disconnected from 3CX WebSocket');
+// });
 
-ws3cx.on('error', (error) => {
-  console.error('3CX WebSocket error:', error);
-});
+// ws3cx.on('error', (error) => {
+//   console.error('3CX WebSocket error:', error);
+// });
 
 // 啟動伺服器
 server.listen(PORT, () => {
