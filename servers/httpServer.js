@@ -6,7 +6,7 @@ dotenv.config();
 const token_3cx = require('../utils/getToken');
 
 const app = express();
-const PORT = process.env.PORT || 3081;
+const HTTP_PORT = process.env.HTTP_PORT || 3081;
 
 
 // 使用 CORS 中介軟體
@@ -104,6 +104,6 @@ app.post('/api/callcontrol/:dnnumber/devices/:deviceid/makecall', async (req, re
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(HTTP_PORT, () => {
+  console.log(`Server is running on http://localhost:${HTTP_PORT}`);
 });

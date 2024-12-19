@@ -9,8 +9,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 app.use(cors());
-const PORT = process.env.PORT || 3082;
-console.log(`PORT: ${PORT}`);
+const WS_PORT = process.env.WS_PORT || 3082;
 
 // 創建HTTP伺服器
 const server = http.createServer();
@@ -74,8 +73,8 @@ wss.on('connection', (ws) => {
 // });
 
 // 啟動伺服器
-server.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+server.listen(WS_PORT, () => {
+  console.log(`Server is listening on port ${WS_PORT}`);
 });
 
-console.log(`WebSocket server is running on ws://localhost:${PORT}`);
+console.log(`WebSocket server is running on ws://localhost:${WS_PORT}`);
