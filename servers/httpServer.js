@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 dotenv.config();
+const token_3cx = require('../utils/getToken');
 
 const app = express();
 const PORT = process.env.PORT || 3081;
@@ -14,12 +15,13 @@ app.use(express.json());
 
 // 3CX callcontrol
 app.get('/api/callcontrol', async (req, res) => {
+  const token = await token_3cx();
   try {
     const fetch = (await import('node-fetch')).default;
     const response = await fetch(`${process.env.API_HOST}/callcontrol`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${process.env.AUTH_TOKEN}`, // 使用環境變數
+        'Authorization': `Bearer ${token}`, // 使用環境變數
         'Content-Type': 'application/json'
       }
     });
@@ -38,6 +40,7 @@ app.get('/api/callcontrol', async (req, res) => {
 
 // 3CX makecall
 app.post('/api/callcontrol/:dnnumber/makecall', async (req, res) => {
+  const token = await token_3cx();
   const { dnnumber } = req.params;
   const { reason, destination, timeout, attacheddata } = req.body;
 
@@ -46,7 +49,7 @@ app.post('/api/callcontrol/:dnnumber/makecall', async (req, res) => {
     const response = await fetch(`${process.env.API_HOST}/callcontrol/${dnnumber}/makecall`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.AUTH_TOKEN}`, // 替換為您的認證 token
+        'Authorization': `Bearer ${token}`, // 替換為您的認證 token
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -70,6 +73,7 @@ app.post('/api/callcontrol/:dnnumber/makecall', async (req, res) => {
 
 // 3CX makecall with deviceId
 app.post('/api/callcontrol/:dnnumber/devices/:deviceid/makecall', async (req, res) => {
+  const token = await token_3cx();
   const { dnnumber, deviceid } = req.params;
   const { reason, destination, timeout, attacheddata } = req.body;
 
@@ -78,7 +82,7 @@ app.post('/api/callcontrol/:dnnumber/devices/:deviceid/makecall', async (req, re
     const response = await fetch(`${process.env.API_HOST}/callcontrol/${dnnumber}/devices/${deviceid}/makecall`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.AUTH_TOKEN}`, // 替換為您的認證 token
+        'Authorization': `Bearer ${token}`, // 替換為您的認證 token
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({

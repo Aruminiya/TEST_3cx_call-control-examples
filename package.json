@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "httpServer": "env-cmd -f ./.env nodemon ./servers/httpServer.js",
+    "wssServer": "env-cmd -f ./.env nodemon ./servers/wssServer.js"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +14,10 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "env-cmd": "^10.1.0",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "node-fetch": "^3.3.2",
     "ws": "^8.18.0"
   }
