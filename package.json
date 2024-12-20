@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "httpServer": "env-cmd -f ./.env nodemon ./servers/httpServer.js",
-    "wssServer": "env-cmd -f ./.env nodemon ./servers/wssServer.js"
+    "wssServer": "env-cmd -f ./.env nodemon ./servers/wssServer.js",
+    "wssServerMJS": "env-cmd -f ./.env nodemon ./servers/wssServer.mjs"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "node-fetch": "^3.3.2",
+    "sip.js": "^0.21.2",
     "ws": "^8.18.0"
   }
 }
