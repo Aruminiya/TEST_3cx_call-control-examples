@@ -1,6 +1,5 @@
 const WebSocket = require('ws');
 const http = require('http');
-
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -8,9 +7,6 @@ const dotenv = require('dotenv');
 const token_3cx = require('../utils/getToken');
 
 dotenv.config();
-
-
-// connectTo3CX()
 
 app.use(cors());
 const WS_PORT = process.env.WS_PORT || 3082;
@@ -23,20 +19,18 @@ const wss = new WebSocket.Server({ server });
 // 當有新的WebSocket連接時
 wss.on('connection', async (ws) => {
   console.log('Client connected');
-  await connectTo3CX();
+  const ws3cx = await connectTo3CX();
+  
   // 當接收到訊息時
-  ws.on('message', (message) => {
-    console.log('Received:', message);
-    // 在這裡可以處理來自客戶端的訊息
+  ws.on('message', async (message) => {
+    // 動態引入 SIP 模組
+    const SIP = await import('sip.js');
+    ws3cx.send(message);
+    // // 解析 SIP 消息
+    // const sipMessage = SIP.Parser.parseMessage(message);
+    // // 處理 SIP 消息
+    // handleSipMessage(sipMessage);
   });
-
-  // // 當連接關閉時
-  // ws.on('close', () => {
-  //   console.log('Client disconnected');
-  // });
-
-  // // 發送訊息給客戶端
-  // ws.send('Welcome to the proxy for 3CX WebSocket server!');
 });
 
 // 創建WebSocket客戶端連接到3CX
@@ -55,16 +49,13 @@ async function connectTo3CX() {
     });
 
     ws3cx.on('message', (data) => {
-      // console.log('Message from 3CX:', data);
       try {
-        // 假設接收到的數據是JSON格式
         const parsedData = JSON.parse(data);
         console.log('Parsed Data from 3CX:', parsedData);
 
-        // 將解析後的數據發送給所有連接的客戶端
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify(parsedData)); // 確保發送的是字符串
+            client.send(JSON.stringify(parsedData));
           }
         });
       } catch (error) {
@@ -72,8 +63,9 @@ async function connectTo3CX() {
       }
     });
 
-    ws3cx.on('close', () => {
+    ws3cx.on('close', (data) => {
       console.log('Disconnected from 3CX WebSocket');
+      console.log(data);
     });
 
     ws3cx.on('error', (error) => {
@@ -82,6 +74,12 @@ async function connectTo3CX() {
     });
   });
 }
+
+// function handleSipMessage(sipMessage) {
+//   console.log('接收sip訊息');
+//   console.log('Received SIP message:', sipMessage);
+//   // 這裡可以添加轉發或其他處理邏輯
+// }
 
 // 啟動伺服器
 server.listen(WS_PORT, () => {
