@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "httpServer": "env-cmd -f ./.env node ./servers/httpServer.js",
-    "wssServer": "env-cmd -f ./.env node ./servers/wssServer.js",
-    "wssServerMJS": "env-cmd -f ./.env node ./servers/wssServer.mjs"
+    "httpServer": "env-cmd -f .env node ./servers/httpServer.js",
+    "wssServer": "env-cmd -f .env node ./servers/wssServer.js",
+    "wssServerMJS": "env-cmd -f .env node ./servers/wssServer.mjs"
   },
   "keywords": [],
   "author": "",
